@@ -1,0 +1,11 @@
+- hosts: all
+     tasks:
+       - name: Копирование project.txt в Project10
+         copy:
+           src: ~/project.txt
+           dest: ~/Project10/project.txt
+
+       - name: Копирование ansible.txt в Ansible10
+         copy:
+           src: ~/ansible.txt
+           dest: ~/Ansible10/ansible.txt

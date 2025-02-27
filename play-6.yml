@@ -1,0 +1,14 @@
+- hosts: all
+     become: yes
+     tasks:
+       - name: Установка cowsay
+         dnf:
+           name: cowsay
+           state: present
+         become: true
+
+       - name: Установка cmatrix
+         dnf:
+           name: cmatrix
+           state: present
+         become: true

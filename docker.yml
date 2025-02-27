@@ -1,0 +1,51 @@
+---
+- hosts: docker
+  become: yes
+  vars:
+    surname: "Кульбезеков"  # Замените на вашу фамилию
+    variant: "1"       # Замените на ваш вариант
+    group: "С1-21"  # Замените на вашу группу
+
+  tasks:
+    - name: Install required packages
+      dnf:
+ name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+
+    - name: Add Docker repository
+      get_url:
+ url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker
+      dnf:
+ name: docker-ce
+        state: present
+
+    - name: Start and enable Docker
+      service:
+ name: docker
+        state: started
+        enabled: yes
+
+    - name: Add user to docker group
+      user:
+ name: "{{ ansible_user }}"  # Используем текущего пользователя
+ groups: docker
+ append: yes
+
+    - name: Create a custom Dockerfile with personal info
+      copy:
+        content: |
+          FROM alpine
+          LABEL maintainer="{{ surname }}"
+          LABEL variant="{{ variant }}"
+          LABEL group="{{ group }}"
+          CMD echo "Фамилия: {{ surname }}, Вариант: {{ variant }}, Группа: {{ group }}"
+        dest: /home/{{ ansible_user }}/Dockerfile
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'

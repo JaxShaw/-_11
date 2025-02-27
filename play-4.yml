@@ -1,0 +1,11 @@
+- hosts: all
+     tasks:
+       - name: Создание папки Project10
+         file:
+           path: ~/Project10
+           state: directory
+
+       - name: Создание папки Ansible10
+         file:
+           path: ~/Ansible10
+           state: directory

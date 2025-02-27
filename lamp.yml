@@ -1,0 +1,54 @@
+---
+- hosts: lamp
+  become: yes
+  vars:
+    surname: "Кульбезеков"  # Замените на вашу фамилию
+    variant: "1"       # Замените на ваш вариант
+    group: "С1-21"  # Замените на вашу группу
+
+  tasks:
+    - name: Install Apache
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Install MySQL (MariaDB)
+      dnf:
+        name: mariadb-server
+        state: present
+
+    - name: Start and enable MySQL
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Install PHP
+      dnf:
+        name: php
+        state: present
+    - name: Create a custom index.html with personal info
+      copy:
+        content: |
+          <html>
+          <body>
+          <h1>Фамилия: {{ surname }}</h1>
+          <h2>Вариант: {{ variant }}</h2>
+          <h2>Группа: {{ group }}</h2>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted

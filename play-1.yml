@@ -1,0 +1,4 @@
+- hosts: all
+     tasks:
+       - name: Проверка соединения с Manage node
+         ping:

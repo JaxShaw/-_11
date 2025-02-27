@@ -1,22 +1,18 @@
 - hosts: all
-     become: yes
-     tasks:
-       - name: Установка cowsay
-         dnf:
-           name: cowsay
-           state: present
-         become: true
-
-       - name: Установка cmatrix
-         dnf:
-           name: cmatrix
-           state: present
-         become: true
-
-
-
-
-
-
-
-         
+  become: yes
+  tasks:
+    - name: Установка Apache2
+      dnf:
+ name: httpd
+        state: present
+      become: true
+    - name: Включение httpd
+      service:
+ name: httpd
+        state: started
+        enabled: yes
+    - name: Открытие порта в firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled

@@ -1,5 +1,5 @@
 ---
-- hosts: lamp
+- hosts: all
   become: yes
   vars:
     surname: "Кульбезеков"  # Замените на вашу фамилию

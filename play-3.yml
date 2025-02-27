@@ -1,0 +1,9 @@
+- hosts: all
+     tasks:
+       - name: Сбор информации о системе
+         setup:
+
+       - name: Запись информации в файл
+         copy:
+           content: "{{ ansible_facts | to_nice_json }}"
+           dest: ~/ansible-facts-10.json
